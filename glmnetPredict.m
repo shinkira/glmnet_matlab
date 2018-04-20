@@ -198,7 +198,7 @@ if (exact && ~isempty(s))
 end
 
 if strcmp(object.class,'elnet')
-    a0 = transpose(object.a0);
+    a0 = object.a0;
     nbeta=[a0; object.beta];
     
     if (~isempty(s))
