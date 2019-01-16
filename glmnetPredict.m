@@ -199,7 +199,7 @@ end
 
 if strcmp(object.class,'elnet')
     a0 = object.a0;
-    nbeta=[a0; object.beta];
+    nbeta=[a0'; object.beta];
     
     if (~isempty(s))
         lambda=object.lambda;
