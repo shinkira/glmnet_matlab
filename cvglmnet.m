@@ -323,7 +323,15 @@ else
             opts.offset = opts.offset(~which,:);
         end
         xr = x(~which,:); yr = y(~which,:);
-        cpredmat{i} = glmnet(xr, yr, family, opts);
+        if any(yr)
+            cpredmat{i} = glmnet(xr, yr, family, opts);
+        else
+            % cvglmnet returns NaN when neural activity is too sparse 
+            % (when one of training sets in CV has zero activity)
+            % SK 19/02/04
+            CVerr = NaN;
+            return
+        end
     end
 end
 
