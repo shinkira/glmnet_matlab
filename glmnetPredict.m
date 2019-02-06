@@ -229,7 +229,10 @@ if strcmp(object.class,'elnet')
 end
 
 if strcmp(object.class,'fishnet')
-     a0 = transpose(object.a0);
+    a0 = object.a0;
+    if iscolumn(a0)
+        a0 = transpose(a0);
+    end
     nbeta=[a0; object.beta];
     
     if (~isempty(s))
