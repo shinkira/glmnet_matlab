@@ -48,7 +48,7 @@ switch type
 end
 
 if (length(y)/nfolds < 3) && grouped
-    warning('Option grouped=false enforced in cv.glmnet, since < 3 observations per fold');
+    % warning('Option grouped=false enforced in cv.glmnet, since < 3 observations per fold');
     grouped = false;
 end
 
