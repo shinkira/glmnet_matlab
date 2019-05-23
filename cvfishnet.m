@@ -64,6 +64,7 @@ sqccv = (bsxfun(@minus,cvraw,cvm)).^2;
 cvsd = sqrt(wtmean(sqccv,weights)./(N-1));
 
 result.cvm = cvm; result.cvsd = cvsd; result.name = typenames.(type);
+result.cvraw = cvraw; % added by SK 19/05/23
 
 if (keep)
     result.fit_preval = predmat;

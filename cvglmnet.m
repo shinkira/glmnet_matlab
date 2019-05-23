@@ -354,6 +354,8 @@ cvm = cvstuff.cvm;
 cvsd = cvstuff.cvsd;
 cvname = cvstuff.name;
 
+CVerr.cvraw = cvstuff.cvraw; % adde by SK 19/05/23
+
 CVerr.lambda = options.lambda;
 CVerr.cvm = transpose(cvm); CVerr.cvsd = transpose(cvsd); 
 CVerr.cvup = transpose(cvm+cvsd); CVerr.cvlo = transpose(cvm-cvsd); CVerr.nzero = nz;
