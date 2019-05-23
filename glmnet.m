@@ -438,10 +438,12 @@ if issparse(y)
 end
 
 % if the elapsed time exceeds time limit, skip fitting
-if isfinite(options.time_limit_sec)
-    t_elapsed = toc(options.t_start);
-    if t_elapsed > options.time_limit_sec
-        error('%d sec elapsed for the model fitting',options.time_limit_sec);
+if isfield(options,'time_limit_sec')
+    if isfinite(options.time_limit_sec)
+        t_elapsed = toc(options.t_start);
+        if t_elapsed > options.time_limit_sec
+            error('%d sec elapsed for the model fitting',options.time_limit_sec);
+        end
     end
 end
   
