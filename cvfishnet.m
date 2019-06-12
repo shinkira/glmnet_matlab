@@ -1,9 +1,13 @@
-function result = cvfishnet(object,lambda,x,y,weights,offset,foldid,type,grouped,keep)
+function result = cvfishnet(object,lambda,x,y,weights,offset,foldid,type,grouped,keep,data2eval)
 
 % Internal glmnet function. See also cvglmnet.
 
 if nargin < 10 || isempty(keep)
     keep = false;
+end
+
+if nargin < 11 || isempty(keep)
+    data2eval = 'test';
 end
 
 typenames = struct('mse','Mean-Squared Error','mae','Mean Absolute Error','deviance','Poisson Deviance');
@@ -22,7 +26,14 @@ nfolds = max(foldid);
 nlams = nfolds;
 
 for i = 1:nfolds
-    which = foldid == i;
+    switch data2eval
+        case 'test'
+            % GLM is trained on the training set and evaluated on the TEST set
+            which = foldid == i;
+        case 'train' % for tutorial only
+            % GLM is trained on the training set and evaluated on the TRAINING set
+            which = foldid ~= i;
+    end
     fitobj = object{i};
     if (is_offset)
         off_sub = offset(which);

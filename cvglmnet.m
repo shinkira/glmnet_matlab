@@ -237,6 +237,7 @@ if nargin < 10 || isempty(grouped)
     grouped = true;
 end
 
+data2eval = options.data2eval;
 options = glmnetSet(options);
 
 if (~isempty(options.lambda)) && (length(options.lambda)<2)
@@ -347,7 +348,7 @@ switch cpredmat{1}.class
     case 'mrelnet'
         cvstuff = cvmrelnet(cpredmat,options.lambda,x,y,options.weights,options.offset,foldid,type,grouped,keep); 
     case 'fishnet'
-        cvstuff = cvfishnet(cpredmat,options.lambda,x,y,options.weights,options.offset,foldid,type,grouped,keep);
+        cvstuff = cvfishnet(cpredmat,options.lambda,x,y,options.weights,options.offset,foldid,type,grouped,keep,data2eval);
 end
 
 cvm = cvstuff.cvm;
