@@ -1,4 +1,4 @@
-function GlmForNoah
+function GlmTutorial
     
     rng(0);
 
