@@ -21,11 +21,7 @@ function GlmTutorial
     dm = [-1  -1   1   1  -1  -1   1   1; % sample
           -1   1   1  -1  -1   1   1  -1; % test
            1  -1   1  -1  -1   1  -1   1]'; % choice
-       
-    dm2 = randn(8,20);
-    % dm2 = double(randn(8,100)>0);
-    % dm2(dm2==0) = -1;
-        
+            
     n_trial = 200;
     n_trial_cuePos = n_trial/4;
     p_cor = 0.8;
@@ -91,9 +87,8 @@ function GlmTutorial
     distr = 'poisson';
     n_fold = 10;
     
-    X = dm(cuePos8,:);
-    % X = eye(n_trial);
-    X = [X,eye(n_trial)];
+    X = dm(cuePos8,:); % proper design matrix
+    X = [X,eye(n_trial)]; % overparameterized design matrix
     
     X_train = X(trial_ind_train{1},:);
     y_train = y(trial_ind_train{1});
@@ -101,6 +96,7 @@ function GlmTutorial
     y_test = y(trial_ind_test{1});
     
     %% GLM is trained on the training set and evaluated on the TRAINING set
+    % The error decreases as more beta coefficients are used to fit the data.
     options.data2eval = 'train';
     cvobj = cvglmnet(X_train, y_train, distr, options, 'deviance', n_fold, fold_ind{1});
     figure(2);clf;
@@ -109,6 +105,7 @@ function GlmTutorial
     y_lim = get(gca,'Ylim');
     
     %% GLM is trained on the training set and evaluated on the TEST set
+    % The error decreases as more beta coefficients are used but increases when too many beta's are used to overfit the data.
     options.data2eval = 'test';
     cvobj = cvglmnet(X_train, y_train, distr, options, 'deviance', n_fold, fold_ind{1});
     figure(3);clf;
@@ -149,13 +146,14 @@ function GlmTutorial
     Xb_nocv  = X_test*beta_nocv + a0_nocv;
     Xb_null = log(mean(y_train)).*ones(size(y_test)); % the null model predicts a constant activity
     
+    % evaluate the deviance on the TEST set (held-out data)
     dev_1se_test = mean(devi(y_test, Xb_1se));
     dev_min_test = mean(devi(y_test, Xb_min));
     dev_zero_test = mean(devi(y_test, Xb_zero));
     dev_nocv_test = mean(devi(y_test, Xb_nocv));
     dev_null_test = mean(devi(y_test, Xb_null));
     
-    % fraction of deviance explained
+    % fraction of deviance explained on the Test set (held-out data)
     fde_1se = (dev_null_test - dev_1se_test)/dev_null_test;
     fde_min = (dev_null_test - dev_min_test)/dev_null_test;
     fde_zero = (dev_null_test - dev_zero_test)/dev_null_test;
