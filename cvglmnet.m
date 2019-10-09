@@ -354,7 +354,9 @@ cvm = cvstuff.cvm;
 cvsd = cvstuff.cvsd;
 cvname = cvstuff.name;
 
-CVerr.cvraw = cvstuff.cvraw; % adde by SK 19/05/23
+if strcmp(cpredmat{1}.class,'fishnet')
+    CVerr.cvraw = cvstuff.cvraw; % adde by SK 19/05/23
+end
 
 CVerr.lambda = options.lambda;
 CVerr.cvm = transpose(cvm); CVerr.cvsd = transpose(cvsd); 
