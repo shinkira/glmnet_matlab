@@ -237,7 +237,11 @@ if nargin < 10 || isempty(grouped)
     grouped = true;
 end
 
-data2eval = options.data2eval;
+if isfield(options,'data2eval')
+    data2eval = options.data2eval;
+else
+    data2eval = 'test';
+end
 options = glmnetSet(options);
 
 if (~isempty(options.lambda)) && (length(options.lambda)<2)
@@ -355,7 +359,9 @@ cvm = cvstuff.cvm;
 cvsd = cvstuff.cvsd;
 cvname = cvstuff.name;
 
-CVerr.cvraw = cvstuff.cvraw; % adde by SK 19/05/23
+if exist('CVerr','var')
+    CVerr.cvraw = cvstuff.cvraw; % adde by SK 19/05/23
+end
 
 CVerr.lambda = options.lambda;
 CVerr.cvm = transpose(cvm); CVerr.cvsd = transpose(cvsd); 
